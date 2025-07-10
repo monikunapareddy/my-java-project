@@ -8,7 +8,7 @@ import java.time.LocalTime;
 public class TaskTwo {
 	public static void main(String[] args) throws InterruptedException {
 		LocalTime now = LocalTime.now();
-		if (now.isBefore(LocalTime.of(13, 0)) || now.isAfter(LocalTime.of(20, 0))) {
+		if (now.isBefore(LocalTime.of(18, 0)) || now.isAfter(LocalTime.of(19, 0))) {
 			System.out.println("Allowed only between 6PM and 7PM");
 			return;
 		}
