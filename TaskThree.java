@@ -1,4 +1,5 @@
 package tasks;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,64 +11,64 @@ import jakarta.mail.internet.*;
 import java.util.Properties;
 
 public class TaskThree {
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        // ==== CONFIG ====
-        String productUrl = "https://automationexercise.com/product_details/1"; // Update to the specific product
-        double targetPrice = 600.0;
-        String emailFrom = "monikunapareddy1@gmail.com";
-        String emailPass = "uppwduoucnhbbuzv";
-        String emailTo = "monikunapareddy@gmail.com";
+		// ==== CONFIG ====
+		String productUrl = "https://automationexercise.com/product_details/1"; // Update to the specific product
+		double targetPrice = 600.0;
+		String emailFrom = "monikunapareddy1@gmail.com";
+		String emailPass = "uppwduoucnhbbuzv";
+		String emailTo = "monikunapareddy@gmail.com";
 
-        WebDriver driver = new ChromeDriver();
-        driver.get(productUrl);
+		WebDriver driver = new ChromeDriver();
+		driver.get(productUrl);
 
-        try {
-            // Wait for page to load
-            Thread.sleep(2000);
+		try {
+			// Wait for page to load
+			Thread.sleep(2000);
 
-            WebElement productNameElement = driver.findElement(By.xpath("//div[@class='product-information']/h2"));
-            WebElement priceElement = driver.findElement(By.xpath("//div[@class='product-information']/span/span"));
+			WebElement productNameElement = driver.findElement(By.xpath("//div[@class='product-information']/h2"));
+			WebElement priceElement = driver.findElement(By.xpath("//div[@class='product-information']/span/span"));
 
-            String productName = productNameElement.getText();
-            String priceText = priceElement.getText();  // e.g. "Rs. 500"
-            double price = Double.parseDouble(priceText.replaceAll("[^0-9]", ""));
+			String productName = productNameElement.getText();
+			String priceText = priceElement.getText(); 
+			double price = Double.parseDouble(priceText.replaceAll("[^0-9]", ""));
 
-            System.out.println("Product: " + productName + " | Price: Rs. " + price);
+			System.out.println("Product: " + productName + " | Price: Rs. " + price);
 
-            if (price < targetPrice) {
-                String subject = "Price Drop Alert!";
-                String body = "The product \"" + productName + "\" is now Rs. " + price + ".\n" +
-                        "Check it here: " + productUrl;
+			if (price < targetPrice) {
+				String subject = "Price Drop Alert!";
+				String body = "The product \"" + productName + "\" is now Rs. " + price + ".\n" + "Check it here: "
+						+ productUrl;
 
-                Properties props = new Properties();
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.starttls.enable", "true");
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.port", "587");
+				Properties props = new Properties();
+				props.put("mail.smtp.auth", "true");
+				props.put("mail.smtp.starttls.enable", "true");
+				props.put("mail.smtp.host", "smtp.gmail.com");
+				props.put("mail.smtp.port", "587");
 
-                Session session = Session.getInstance(props, new Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(emailFrom, emailPass);
-                    }
-                });
+				Session session = Session.getInstance(props, new Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(emailFrom, emailPass);
+					}
+				});
 
-                Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(emailFrom));
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo));
-                message.setSubject(subject);
-                message.setText(body);
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(emailFrom));
+				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo));
+				message.setSubject(subject);
+				message.setText(body);
 
-                Transport.send(message);
-                System.out.println("Email sent successfully!");
-            } else {
-                System.out.println("Price is above the threshold. No email sent.");
-            }
+				Transport.send(message);
+				System.out.println("Email sent successfully!");
+			} else {
+				System.out.println("Price is above the threshold. No email sent.");
+			}
 
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+		} catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
+		}
 
-        driver.quit();
-    }
+		driver.quit();
+	}
 }
